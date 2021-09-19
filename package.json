@@ -25,5 +25,9 @@
   "bugs": {
     "url": "https://github.com/fabiosferreira/reactsniffer/issues"
   },
-  "homepage": "https://github.com/fabiosferreira/reactsniffer#readme"
+  "homepage": "https://github.com/fabiosferreira/reactsniffer#readme",
+  "dependencies": {
+    "@babel/parser": "^7.15.6",
+    "node-dir": "^0.1.17"
+  }
 }

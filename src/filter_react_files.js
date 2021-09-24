@@ -14,17 +14,20 @@ module.exports = function(dirname) {
 
 	    	// Generating ast representation of the source code
 	    	ast = JSON.parse(ast_generator(sourceCode));
+	    	ast['imports'] = [];
 
 			//Filtering react files
 			if (ast.hasOwnProperty('program') && ast['program'].hasOwnProperty('body')){
 				for(var [key, body] of Object.entries(ast['program']['body'])){
 					if (body.hasOwnProperty('specifiers')){
-						for(var [key, specifiers] of Object.entries(body['specifiers'])){
-							if (specifiers['type'] == "ImportDefaultSpecifier" && specifiers['local']['name'] == 'React'){								
-								var dict = {};
-								dict[filepath] = ast;
+						for(var [key, specifier] of Object.entries(body['specifiers'])){
+							if (specifier['type'] == "ImportDefaultSpecifier" && specifier['local']['name'] == 'React'){								
+								// var dict = {};
+								// dict[filepath] = ast;
 								ast['url'] = filepath;
-								react_files.push(ast);
+								ast['number_of_lines'] = ast['loc']['end']['line'] - ast['loc']['start']['line'] + 1;
+							}else if (specifier['type'] == "ImportSpecifier" || specifier['type'] == "ImportDefaultSpecifier"){
+								ast['imports'].push(specifier['local']['name']);
 							}
 						}
 					}else if (body.hasOwnProperty('declarations')){
@@ -32,15 +35,17 @@ module.exports = function(dirname) {
 						for(var [key, declarations] of Object.entries(body['declarations'])){
 							if (declarations['type'] == "VariableDeclarator" && declarations.hasOwnProperty('id') 
 								&& declarations['id'].hasOwnProperty('name') && declarations['id']['name'] == 'React'){
-								var dict = {};
-								dict[filepath] = ast;
+								// var dict = {};
+								// dict[filepath] = ast;
 								ast['url'] = filepath;
-								react_files.push(ast);
+								ast['number_of_lines'] = ast['loc']['end']['line'] - ast['loc']['start']['line'] + 1
 							}
 						}
 					}
 				}
-			}	
+				react_files.push(ast);
+			}
+			
 		}
 	})
 

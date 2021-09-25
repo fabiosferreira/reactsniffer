@@ -3,6 +3,8 @@
   "version": "1.0.1",
   "description": "Detect Code Smells in React-based Web Systems",
   "main": "index.js",
+  "preferGlobal": true,
+  "bin": { "reactsniffer": "index.js" },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

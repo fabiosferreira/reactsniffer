@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 const filter_react_files = require('./src/filter_react_files');
 const detect_smells = require('./src/detect_smells');
 const compute_thresholds = require('./src/compute_thresholds');

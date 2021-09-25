@@ -32,6 +32,6 @@
   "homepage": "https://github.com/fabiosferreira/reactsniffer#readme",
   "dependencies": {
     "@babel/parser": "^7.15.6",
-    "node-dir": "^0.1.17"
+    "recursive-readdir": "^2.2.2"
   }
 }

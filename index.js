@@ -4,7 +4,7 @@ const filter_react_files = require('./src/filter_react_files');
 const detect_smells = require('./src/detect_smells');
 const compute_thresholds = require('./src/compute_thresholds');
 
-var dirname = __dirname + "/" +process.argv.slice(2);
+var dirname = process.cwd() + "/" +process.argv.slice(2);
 
 ast_react_files = filter_react_files(dirname);
 

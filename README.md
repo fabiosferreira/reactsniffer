@@ -20,7 +20,7 @@ The Smells Detector module is also implemented in Node and relies on the AST to 
 Use the package manager [npm](https://www.npmjs.com/) to install locally.
 
 ```bash
-npm install reactsniffer
+npm install -g reactsniffer
 ```
 
 ## Usage

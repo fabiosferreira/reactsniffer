@@ -10,8 +10,14 @@ module.exports = function(dirname) {
 	files.forEach(function(filepath) {
     	sourceCode = fs.readFileSync(filepath, "utf-8");
 
-    	// Generating ast representation of the source code
+    	try {
+		    // Generating ast representation of the source code
     	ast = JSON.parse(ast_generator(sourceCode));
+		} catch (err) {
+		    // handle the error safely
+		    console.log("Invalid json passed: ", filepath);        	
+		}
+    	
     	ast['imports'] = [];
 
 		//Filtering react files

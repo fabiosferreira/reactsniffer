@@ -4,7 +4,10 @@ const filter_react_files = require('./src/filter_react_files');
 const detect_smells = require('./src/detect_smells');
 const compute_thresholds = require('./src/compute_thresholds');
 
-var dirname = process.cwd() + "/" +process.argv.slice(2);
+var dirname = process.argv.slice(2)[0];
+
+if (!dirname.startsWith('/'))
+	dirname = process.cwd() + "/" +process.argv.slice(2);
 
 ast_react_files = filter_react_files(dirname);
 
@@ -14,7 +17,7 @@ all_components = []
 for(var [key, value] of Object.entries(ast_react_files)){
 	out = {}
 
-	out['File'] = value['url'].substring(value['url'].lastIndexOf('/'));
+	out['File'] = value['url'].substring(value['url'].lastIndexOf('/')+1);
 	out['LOC'] = value['number_of_lines'];
 	file_components = detect_smells(value)['components'];
 	out['N_Components'] = file_components.length;

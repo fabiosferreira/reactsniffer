@@ -1,7 +1,7 @@
 var fs = require('fs')
 var path = require('path');
 
-module.exports = function(dirname){
+exports.get_files = function(dirname){
     return walk(dirname);
 }
 
@@ -28,4 +28,32 @@ var walk = function(dir) {
         process.exit(1);
     }
     return files;
+}
+
+exports.get_line = function(filename, line_no) {
+    var data = fs.readFileSync(filename, 'utf8');
+    var lines = data.split("\n");
+ 
+    if(+line_no > lines.length){
+        return null;
+    }
+ 
+    return lines[line_no-1].replace(/(^\s+|\s+$)/g, '');
+}
+
+exports.get_lines = function(filename, line_start, line_end) {
+    var data = fs.readFileSync(filename, 'utf8');
+    var lines = data.split("\n");
+ 
+    number_of_lines = line_end - line_start;
+    if(+number_of_lines > lines.length){
+        return null;
+    }
+ 
+    aux_lines = '';
+    for (var line_no = line_start; line_no <= line_end; line_no++) {
+        aux_lines += lines[line_no-1].replace(/(^\s+|\s+$)/g, '');
+    }
+
+    return aux_lines;
 }

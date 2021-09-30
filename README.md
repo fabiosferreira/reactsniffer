@@ -29,6 +29,12 @@ To use this tool you need to provide the repository directory (e.g., myproject/r
 reactsniffer myproject/react/src
 ```
 
+## Output
+
+The output will show the smells into two summarized tables.
+
+Two CSV files (one per file and another by component) with more details about each smell will be generated.
+
 ## Supported Smells
 
 ReactSniffer supports the following smells: 

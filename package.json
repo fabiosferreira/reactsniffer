@@ -31,6 +31,7 @@
   },
   "homepage": "https://github.com/fabiosferreira/reactsniffer#readme",
   "dependencies": {
-    "@babel/parser": "^7.15.6"
+    "@babel/parser": "^7.15.6",
+    "csv-writer": "^1.6.0"
   }
 }

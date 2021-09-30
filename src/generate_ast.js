@@ -1,6 +1,6 @@
 const babelParser = require('@babel/parser');
 
-module.exports = function(source_code) {
+module.exports = function(source_code, type_checker = 'typescript') {
 	const ast = babelParser.parse(source_code, {
 		sourceType: 'module',
 		plugins: [
@@ -14,8 +14,7 @@ module.exports = function(source_code) {
 			'dynamicImport',
 			'exportDefaultFrom',
 			'exportNamespaceFrom',
-			// 'flow',
-			'typescript',
+			type_checker,
 			'flowComments',
 			'functionBind',
 			'functionSent',
@@ -39,6 +38,5 @@ module.exports = function(source_code) {
 	return JSON.stringify(ast);
 }
 
-// console.log(JSON.stringify(ast));
 
 

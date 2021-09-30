@@ -36,16 +36,18 @@ function calcQuartile(arr,q){
 }
 
 
-module.exports = function(all_components,all_files) {
+exports.compute = function(all_components,all_files) {
 	loc = [];
 	N_props = [];
 	NM = [];
 	NA = [];
+	NM_JSX = [];
 
 	for (const component of all_components){
 		loc.push(component['loc']);
 		N_props.push(component['properties'].length);
 		NM.push(component['classMethods'].length+component['functions'].length);
+		NM_JSX.push(component['JSXOutsideRender'].length);
 		NA.push(component['classProperties'].length);
 	}
 
@@ -61,12 +63,15 @@ module.exports = function(all_components,all_files) {
 	}
 
 	thresholds = {}
-	//Components
+
+	//Components thresholds
 	thresholds['LOC_Component'] = calcQuartile(loc,95);
 	thresholds['N_props'] = calcQuartile(N_props,95);
 	thresholds['NM'] = calcQuartile(NM,95);
+	thresholds['NM_JSX'] = calcQuartile(NM_JSX,95);
 	thresholds['NA'] = calcQuartile(NA,95);
-	//Files
+
+	//Files thresholds
 	thresholds['LOC_File'] = calcQuartile(loc_files,95);
 	thresholds['N_Components'] = calcQuartile(N_components,95);
 	thresholds['N_Functions'] = calcQuartile(N_functions,95);
@@ -75,14 +80,22 @@ module.exports = function(all_components,all_files) {
 	return thresholds;
 }
 
-// module.exports = function(components, loc_files) {
+exports.get_empirical_thresholds = function() {
 
-// 	thresholds = {}
-// 	thresholds['LOC_Files'] = calcQuartile(loc_files,95);
-// 	thresholds['LOC_Component'] = calcQuartile(loc,95);
-// 	thresholds['N_props'] = calcQuartile(N_props,95);
-// 	thresholds['NM'] = calcQuartile(NM,95);
-// 	thresholds['NA'] = calcQuartile(NA,95);
+	thresholds = {}
 
-// 	return thresholds;
-// }
+	//Components thresholds
+	thresholds['LOC_Component'] = 128;
+	thresholds['N_props'] = 13;
+	thresholds['NM'] = 4;
+	thresholds['NM_JSX'] = 3;
+	thresholds['NA'] = 1;
+
+	//Files thresholds
+	thresholds['LOC_File'] = 218;
+	thresholds['N_Components'] = 2;
+	thresholds['N_Functions'] = 1;
+	thresholds['N_Imports'] = 20;
+
+	return thresholds;
+}

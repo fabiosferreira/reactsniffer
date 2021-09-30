@@ -1,4 +1,5 @@
 const dom_elements = require('./utils/dom_elements');
+const read_files = require('./utils/read_files');
 
 module.exports = function(ast) {
 	functions = [];
@@ -8,15 +9,15 @@ module.exports = function(ast) {
 	for(var [key, value] of Object.entries(ast['program']['body'])){
 		component = {
 			'file': ast['url'].substring(ast['url'].lastIndexOf('/')+1),
+			'file_url': ast['url'],
 			'properties' : [], 
-			'forceUpdate' : 0,
-			'reload' : 0,
-			'uncontrolled' : 0,
+			'forceUpdate' : [],
+			'uncontrolled' : [],
 			'classProperties' : [],
 			'classMethods' : [],
 			'JSXOutsideRender' : [],
-			'propsInitialState' : 0,
-			'dom_manipulation' : 0,
+			'propsInitialState' : [],
+			'dom_manipulation' : [],
 			'functions': []
 		};
 		
@@ -29,6 +30,17 @@ module.exports = function(ast) {
 	return ast;
 }
 
+function get_line(filename, line_no) {
+    var data = fs.readFileSync(filename, 'utf8');
+    var lines = data.split("\n");
+ 
+    if(+line_no > lines.length){
+      	return null;
+    }
+ 
+    return lines[line_no-1].replace(/\s/g,'');
+}
+
 function check_props_initial_state(item, params){
 	aux = false;
 	for(var [key, value] of Object.entries(item)){
@@ -37,8 +49,9 @@ function check_props_initial_state(item, params){
 				item['expression']['right']['properties']){
 
 				for (const prop of item['expression']['right']['properties']) {
-					if (prop['value']['object'] && params.includes(prop['value']['object']['name']))
+					if (prop['value']['object'] && params.includes(prop['value']['object']['name'])){
 						aux= true;
+					}
 				}
 			}
 		}
@@ -69,7 +82,7 @@ function recursive_search(item,component,components,functions){
 				component['loc'] = item['loc']['end']['line'] - item['loc']['start']['line'] + 1
 
 				if (value == "ClassDeclaration" && item['superClass'] && 'name' in item['superClass'] && 
-					item['superClass'] != 'PureComponent' && item['superClass']['name'] != 'Component'){
+					item['superClass']['name'] != 'PureComponent' && item['superClass']['name'] != 'Component'){
 					component['superClass'] = item['superClass']['name']
 				}
 
@@ -120,8 +133,14 @@ function recursive_search(item,component,components,functions){
 					}
 
 					for (const expression of item['body']['body']) {
-						if (check_props_initial_state(expression,params))
-							component['propsInitialState'] = component['propsInitialState'] + 1;
+						if (check_props_initial_state(expression,params)){
+							propsInitialState = {}
+							propsInitialState['line_start'] = expression['loc']['start']['line'];
+							propsInitialState['line_end'] = expression['loc']['end']['line'];
+							propsInitialState['line'] = read_files.get_lines(component['file_url'],propsInitialState['line_start'],propsInitialState['line_end']);
+
+							component['propsInitialState'].push(propsInitialState);
+						}
 					}
 					
 
@@ -153,16 +172,27 @@ function recursive_search(item,component,components,functions){
 				component['properties'].push(value['name']);
 
 		}	
-		// Check for forceUpdate
+		// Check for forceUpdate and directy dom manipulation
 		else if (key == 'callee'){
 			if (value['property'] && value['property']['name']){
-				if (value['property']['name'] == "forceUpdate") 
-					component['forceUpdate'] = component['forceUpdate'] + 1
-				else if (value['property']['name'] == "reload")
-					component['reload'] = component['reload'] + 1
+				if (value['property']['name'] == "forceUpdate" || value['property']['name'] == "reload"){ 
+					// console.log(component['file_url']);
+					// console.log(component['name']);
+					
+					forceUpdate = {}
+					forceUpdate['line_number'] = value['loc']['start']['line'];
+					forceUpdate['line'] = read_files.get_line(component['file_url'],forceUpdate['line_number']);
+					
+					component['forceUpdate'].push(forceUpdate);
+				}
 				else if (value['object']['name'] && (value['object']['name'] == "document" || value['object']['name'] == "element"))					
-					if (dom_elements().includes(value['property']['name']))
-						component['dom_manipulation'] += 1;
+					if (dom_elements().includes(value['property']['name'])){
+						dom_manipulation = {}
+						dom_manipulation['line_number'] = value['loc']['start']['line'];
+						dom_manipulation['line'] = read_files.get_line(component['file_url'],dom_manipulation['line_number']);
+						
+						component['dom_manipulation'].push(dom_manipulation);
+					}
 			}
 		}	
 		else if (key == 'name' && value['name'] == 'input'){
@@ -179,8 +209,13 @@ function recursive_search(item,component,components,functions){
 							attr_value=true;
 				}
 
-				if (attr_ref && !attr_value)
-					component['uncontrolled'] = component['uncontrolled'] + 1
+				if (attr_ref && !attr_value){
+					uncontrolled = {}
+					uncontrolled['line_number'] = value['loc']['start']['line'];
+					uncontrolled['line'] = read_files.get_line(component['file_url'],uncontrolled['line_number']);
+					
+					component['uncontrolled'].push(uncontrolled);
+				}
 			}
 		}
 		else if (typeof value === 'object'){

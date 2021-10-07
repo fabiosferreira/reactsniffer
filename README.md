@@ -29,7 +29,7 @@ To use this tool you need to provide the repository directory (e.g., myproject/r
 reactsniffer myproject/react/src
 ```
 
-## Output
+### Output
 
 The output will show the smells into two summarized tables.
 
@@ -51,6 +51,7 @@ ReactSniffer supports the following smells:
 | Uncontrolled Components            | A component that does not use props/state to handle form's data |
 | JSX outside the render method      | Implementing markup in multiple methods                         |
 | Large File                         | A file with several components and lines of code                |
+
 
 ## License
 

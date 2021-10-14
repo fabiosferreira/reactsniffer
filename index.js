@@ -155,10 +155,10 @@ for (const [key,component] of Object.entries(all_components)){
 			details += "Line "+uncontrolled['line_number']+": "+uncontrolled['line']+"\n";
 
 		csv_smells.push(createSmell(component['file_url'],out_component['Component'],"Uncontrolled component", details));
-		out_component['Unc.'] = component['uncontrolled'].length;
+		out_component['UC'] = component['uncontrolled'].length;
 	}
 	else 
-		out_component['Unc.'] = 0;
+		out_component['UC'] = 0;
 
 	if (component['propsInitialState'].length > 0){
 		has_smells = true;

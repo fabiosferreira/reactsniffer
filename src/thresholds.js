@@ -74,7 +74,7 @@ exports.compute = function(all_components,all_files) {
 	//Files thresholds
 	thresholds['LOC_File'] = calcQuartile(loc_files,95);
 	thresholds['N_Components'] = calcQuartile(N_components,95);
-	thresholds['N_Functions'] = calcQuartile(N_functions,95);
+	// thresholds['N_Functions'] = calcQuartile(N_functions,95);
 	thresholds['N_Imports'] = calcQuartile(N_imports,95);
 
 	return thresholds;
@@ -94,7 +94,7 @@ exports.get_empirical_thresholds = function() {
 	//Files thresholds
 	thresholds['LOC_File'] = 218;
 	thresholds['N_Components'] = 2;
-	thresholds['N_Functions'] = 1;
+	// thresholds['N_Functions'] = 1;
 	thresholds['N_Imports'] = 20;
 
 	return thresholds;

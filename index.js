@@ -48,7 +48,8 @@ thresholds = compute_thresholds.get_empirical_thresholds();
 var cont_smells_files = 0; 
 for (const file of all_files){
 	if(file['LOC'] > thresholds['LOC_File'] || file['N_Components'] > thresholds['N_Components'] || 
-		file['N_Functions'] > thresholds['N_Functions'] || file['N_Imports'] > thresholds['N_Imports']){
+		// file['N_Functions'] > thresholds['N_Functions'] || 
+		file['N_Imports'] > thresholds['N_Imports']){
 
 		file['id'] = ++cont_smells_files;
 		file['Large File'] = file['File'];

@@ -45,7 +45,7 @@ ReactSniffer supports the following smells:
 | Too Many Props                     | Passing too many properties to a single component               |
 | Inheritance Instead of Composition | Using inheritance to reuse code among components                |
 | Props in Initial State             | Initializing state with props                                   |
-| Directy DOM Manipulation           | Manipulating DOM directyly                                      |
+| Directy DOM Manipulation           | Manipulating DOM directly                                       |
 | Force Update                       | Forcing the component or page to update                         |
 | JSX outside the render method      | Implementing markup in multiple methods                         |
 | Uncontrolled Components            | A component that does not use props/state to handle form's data |

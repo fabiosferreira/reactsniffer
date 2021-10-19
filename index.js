@@ -197,4 +197,7 @@ if (output_components.length > 0){
 }else
 	console.log("There are no components with smells");
 
+console.log('Number of analyzed files: ',all_files.length);
+console.log('Number of analyzed components', all_components.length);
+
 

@@ -49,7 +49,6 @@ ReactSniffer supports the following smells:
 | Force Update                       | Forcing the component or page to update                         |
 | JSX outside the render method      | Implementing markup in multiple methods                         |
 | Uncontrolled Components            | A component that does not use props/state to handle form's data |
-| JSX outside the render method      | Implementing markup in multiple methods                         |
 | Large File                         | A file with several components and lines of code                |
 
 

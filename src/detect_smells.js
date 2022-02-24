@@ -49,7 +49,7 @@ function check_props_initial_state(item, params){
 				item['expression']['right']['properties']){
 
 				for (const prop of item['expression']['right']['properties']) {
-					if (prop['value']['object'] && params.includes(prop['value']['object']['name'])){
+					if (prop['value'] && prop['value']['object'] && params.includes(prop['value']['object']['name'])){
 						aux= true;
 					}
 				}

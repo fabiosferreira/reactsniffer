@@ -34,9 +34,9 @@ for(var [key, value] of Object.entries(ast_react_files)){
 	}
 }
 
-const question = "Em uma escala de 1 a 5, como você avalia a severidade desse smell?"+
-	"\n1 = smell não é importante e, provavelmente, não será eliminado"+
-	"\n5 = smell é muito importante e, provavelmente, será eliminado em breve.";
+const question = "Em uma escala de 1 a 5, como você avalia a relevância desse smell?"+
+	"\n1 = smell não é importante e, provavelmente, não será refatorado"+
+	"\n5 = smell é muito importante e, provavelmente, será refatorado em breve.";
 
 output_components = []
 output_files = []

@@ -1,6 +1,6 @@
 {
   "name": "reactsniffer",
-  "version": "1.0.16",
+  "version": "1.0.17",
   "description": "Detect Code Smells in React-based Web Systems",
   "main": "index.js",
   "preferGlobal": true,
